@@ -5,10 +5,10 @@ Codify is a React-based project designed to infuse creativity into coding sessio
 NCS music and innovative features, Codify is your go-to Spotify clone for an immersive coding experience.
 
 How to Contribute: 
-We welcome contributions from the community to enhance Codify further. Feel free
+I welcome contributions from the community to enhance Codify further. Feel free
 to fork the project, make improvements, and submit pull requests.
 
 License: 
-Codify is released under the MIT License. This license allows for open-source collaboration while protecting the 
+Codify is released under the CC0-1.0 License. This license allows for open-source collaboration while protecting the 
 project and its contributors. Please review the license file for detailed terms and conditions.
 
