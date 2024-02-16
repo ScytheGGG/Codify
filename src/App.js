@@ -1,8 +1,17 @@
 import React from "react"
-import Header from "./Header"
 
+// website elements
+import Header from "./Header"
+import Playlist from "./Playlist"
+import Footer from "./Footer"
+
+// the app itself
 export default function App() {
   return (
-    <Header />
+    <div>
+      <Header />
+      <Playlist />
+      <Footer />
+    </div>
   )
 }
