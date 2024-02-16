@@ -48,17 +48,24 @@ body {
 
 .sidebar {
         width: 450px;
-        margin-top: 28px;
+        margin-top: -700px;
         padding-top: 10px;
         padding-left: 30px;
         padding-right: 30px;
         padding-bottom: 5px;
         color: white;
-        box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.5); /* Add this line for the right shadow */
         position: relative;
 }
 
-.sidebar-container {
+.sidebar--box {
+        width: 450px;
+        margin-top: 28px;
+        padding-top: 687.5px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 5px;
+        color: white;
+        box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.5); /* Add this line for the right shadow */
         position: relative;
 }
       

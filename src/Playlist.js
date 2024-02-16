@@ -207,6 +207,7 @@ const Playlist = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
+      <div className="sidebar--box"></div>
       <div className="sidebar-container" style={sidebarStyle}>
         <div className="sidebar">
           <h2 className="sidebar--title">Library</h2>
