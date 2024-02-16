@@ -51,9 +51,6 @@ const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, delete
       movePlaylist(dragIndex, hoverIndex);
 
       // Note: we're mutating the item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index computations.
       item.index = hoverIndex;
     },
   });
