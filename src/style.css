@@ -38,7 +38,7 @@ body {
         height: 48px;
         /* */
         padding: 6px 100px;
-        margin-left: 21%; /* Move the search bar to the right as much as possible */
+        margin-left: 20%; /* Move the search bar to the right as much as possible */
         margin-right: auto; /* Move the search bar to the left as much as possible */
         display: block;
 }
@@ -47,13 +47,50 @@ body {
 /* Sidebar // Playlist */
 
 .sidebar {
-        width: 400px;
+        width: 450px;
+        margin-top: 28px;
+        padding-top: 10px;
         padding-left: 30px;
         padding-right: 30px;
+        padding-bottom: 5px;
         color: white;
-        border-right: solid #303233;
+        box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.5); /* Add this line for the right shadow */
+        position: relative;
+}
+
+.sidebar-container {
+        position: relative;
 }
       
+.add-playlist-button {
+        position: absolute;
+        top: 7px; /* Adjust as needed */
+        left: 385px; /* Adjust as needed */
+        cursor: pointer;
+        font-size: 40px;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+}
+      
+.context-menu {
+        position:fixed;
+        color: white;
+        width: 10%;
+        z-index: 2; /* Make sure the context menu is above other elements */
+        border: 1px solid rgba(255, 255, 255, 0.492);
+}
+      
+.context-menu div {
+        cursor: pointer;
+        padding: 10px;
+}
+      
+.context-menu div:hover {
+        background-color: #363636;
+}
+
 .playlist-item {
         display: flex;
         align-items: center;
@@ -72,6 +109,7 @@ body {
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        padding-left: 10px;
 }
       
 .playlist-info span {
@@ -94,8 +132,7 @@ body {
 }
       
 .playlist-form {
-        margin-top: 20px;
-        padding-left: 30px;
+        padding-bottom: 30px;
 }
       
 .playlist-form input {
@@ -121,17 +158,24 @@ body {
         border: none;
         padding: 5px 10px;
         cursor: pointer;
-        font-size: 12px;
+        font-size: 15px;
 }
       
 .playlist-form button:hover {
         background-color: #1ed760;
 }
 
+.playlist-input {
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.492);
+        border-radius: 5px;
+        padding: 5px;
+}
+
 /* - - - - - - - - - - -- - - - - - -- - - - - - - - - -- -  - - - - - */
 /* Footer // song controller */
 .Footer {
-        border-top: 5px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.5); /* Add this line for the right shadow */
         padding: 40px;
         position:absolute;
         bottom: 0;

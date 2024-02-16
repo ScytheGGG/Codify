@@ -14,5 +14,6 @@ import './style.css';
 // Best way
 // const root = ReactDOM.createRoot(document.getElementById("item"))
 // root.render(item)
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />)

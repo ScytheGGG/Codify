@@ -1,12 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 const sidebarStyle = {
   fontFamily: 'Inter, sans-serif', // Specify Inter as the primary font
+  position: 'relative', // Add position relative for proper placement of the "+" button
+  width: '250px', // Fixed width for the sidebar
 };
 
-const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, deletePlaylist, pinPlaylist, unpinPlaylist }) => {
+const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, deletePlaylist, pinPlaylist, unpinPlaylist, onContextMenu }) => {
   const ref = useRef(null);
 
   const [, drop] = useDrop({
@@ -36,7 +38,7 @@ const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, delete
       // Get pixels to the top
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      // Only perform the move when the mouse has crossed half of the items height
+      // Only perform the move when the mouse has crossed half of the item's height
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -66,8 +68,20 @@ const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, delete
 
   const opacity = isDragging ? 0 : 1;
 
+  const handleContextMenu = useCallback(
+    (e) => {
+      e.preventDefault();
+      onContextMenu(e, index);
+    },
+    [index, onContextMenu]
+  );
+
   return (
-    <div ref={(node) => (ref.current = node)} style={{ opacity }}>
+    <div
+      ref={(node) => (ref.current = node)}
+      style={{ opacity, cursor: 'grab' }}
+      onContextMenu={handleContextMenu}
+    >
       <div ref={(node) => drag(drop(node))} className={`playlist-item ${playlist.pinned ? 'pinned' : ''}`}>
         <img
           src={playlist.image}
@@ -102,17 +116,31 @@ const Playlist = () => {
   const [playlists, setPlaylists] = useState([]);
   const [newPlaylistName, setNewPlaylistName] = useState('');
   const [newPlaylistImage, setNewPlaylistImage] = useState('');
+  const [contextMenuIndex, setContextMenuIndex] = useState(null);
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+
+  // Retrieve playlists from localStorage on component mount
+  useEffect(() => {
+    const storedPlaylists = JSON.parse(localStorage.getItem("playlists")) || [];
+    setPlaylists(storedPlaylists);
+  }, []);
+
+  // Save playlists to localStorage whenever playlists change
+  useEffect(() => {
+    localStorage.setItem("playlists", JSON.stringify(playlists));
+  }, [playlists]);
 
   const createPlaylist = () => {
-    if (newPlaylistName.trim() !== '') {
+    if (playlists.length < 5 || (playlists.length === 0 && newPlaylistName.trim() !== '')) {
+      const defaultPlaylistName = `Your Playlist #${playlists.length + 1}`;
       setPlaylists([
         ...playlists,
-        { name: newPlaylistName, songs: [], pinned: false, image: newPlaylistImage || '/images/No-picture.png' },
+        { name: newPlaylistName || defaultPlaylistName, songs: [], pinned: false, image: newPlaylistImage || '/images/No-picture.png' },
       ]);
       setNewPlaylistName('');
       setNewPlaylistImage('');
     }
-  };
+  };  
 
   const pinPlaylist = (index) => {
     const updatedPlaylists = [...playlists];
@@ -156,11 +184,32 @@ const Playlist = () => {
     }
   };
 
+  const handleContextMenu = (e, index) => {
+    setContextMenuPosition({ x: e.clientX, y: e.clientY });
+    setContextMenuIndex(index);
+    document.addEventListener('click', handleContextMenuClose);
+  };
+
+  const handleContextMenuClose = () => {
+    setContextMenuIndex(null);
+    document.removeEventListener('click', handleContextMenuClose);
+  };
+
+  const handleChangePlaylistName = () => {
+    const newName = prompt("Enter new playlist name:");
+    if (newName !== null) {
+      const updatedPlaylists = [...playlists];
+      updatedPlaylists[contextMenuIndex].name = newName;
+      setPlaylists(updatedPlaylists);
+    }
+    handleContextMenuClose();
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="sidebar-container" style={sidebarStyle}>
         <div className="sidebar">
-          <h2>Playlists</h2>
+          <h2 className="sidebar--title">Library</h2>
           {playlists.map((playlist, index) => (
             <PlaylistItem
               key={index}
@@ -171,17 +220,18 @@ const Playlist = () => {
               deletePlaylist={deletePlaylist}
               pinPlaylist={pinPlaylist}
               unpinPlaylist={unpinPlaylist}
+              onContextMenu={handleContextMenu}
             />
           ))}
         </div>
-        <div className="playlist-form">
-          <input
-            type="text"
-            placeholder="New Playlist"
-            value={newPlaylistName}
-            onChange={(e) => setNewPlaylistName(e.target.value)}
-          />
-          <button onClick={createPlaylist}>Create Playlist</button>
+        {contextMenuIndex !== null && (
+          <div id="context-menu" className="context-menu" style={{ left: `${contextMenuPosition.x}px`, top: `${contextMenuPosition.y}px` }}>
+            <div onClick={handleChangePlaylistName}>Change Playlist Name</div>
+            <div>Add to queue</div>
+          </div>
+        )}
+        <div className="add-playlist-button" onClick={createPlaylist}>
+          +
         </div>
       </div>
     </DndProvider>
