@@ -17,23 +17,29 @@ body {
         color: white;
         display: flex;
         align-items: center;
-        padding: 15px;
+        padding: 15px 25px;
         background-color: var(--gray);
         box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.45);
 }
-
-.Navbar--home {
+      
+.Navbar--home, .Navbar--library {
         padding-left: 25px;
-}
-
-.Navbar--library {
-        padding-left: 25px;
-}
-
-.Navbar--home.active {
-        text-decoration: underline;
 }
       
-.Navbar--library.active {
-        text-decoration: underline; 
+.Navbar--search {
+        background-color: #242424;
+        border: 0;
+        border-radius: 500px;
+        /* */
+        color: #fff!important;
+        font-size: 15px;
+        text-overflow: ellipsis;
+        height: 48px;
+        /* */
+        padding: 6px 100px;
+        margin-left: 21%; /* Move the search bar to the right as much as possible */
+        margin-right: auto; /* Move the search bar to the left as much as possible */
+        display: block;
 }
+
+      

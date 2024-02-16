@@ -10,6 +10,7 @@ export default function Header() {
                         <img src="/images/Codify-No_Background.png" alt="Codify logo" style={{ width: '90px', height: 'auto' }}/>
                         <h2 className="Navbar--home">Home</h2>
                         <h2 className="Navbar--library">Library</h2>
+                        <input className="Navbar--search" type="text" placeholder="What do you want to play?"></input>
                 </nav>
         )
 }
