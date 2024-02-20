@@ -3,12 +3,23 @@ import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 const sidebarStyle = {
-  fontFamily: 'Inter, sans-serif', // Specify Inter as the primary font
-  position: 'relative', // Add position relative for proper placement of the "+" button
-  width: '250px', // Fixed width for the sidebar
+  fontFamily: 'Inter, sans-serif',
+  position: 'relative',
+  width: '250px',
 };
 
-const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, deletePlaylist, pinPlaylist, unpinPlaylist, onContextMenu }) => {
+const PlaylistItem = ({
+  playlist,
+  index,
+  movePlaylist,
+  handleImageChange,
+  deletePlaylist,
+  pinPlaylist,
+  unpinPlaylist,
+  onContextMenu,
+  onSelect,
+  selected,
+}) => {
   const ref = useRef(null);
 
   const [, drop] = useDrop({
@@ -21,24 +32,15 @@ const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, delete
       const dragIndex = item.index;
       const hoverIndex = index;
 
-      // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
         return;
       }
 
-      // Determine rectangle on screen
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
-      // Get vertical middle
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      // Determine mouse position
       const clientOffset = monitor.getClientOffset();
-
-      // Get pixels to the top
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      // Only perform the move when the mouse has crossed half of the item's height
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -47,10 +49,8 @@ const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, delete
         return;
       }
 
-      // Time to actually perform the action
       movePlaylist(dragIndex, hoverIndex);
 
-      // Note: we're mutating the item here!
       item.index = hoverIndex;
     },
   });
@@ -63,20 +63,36 @@ const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, delete
     }),
   });
 
-  const opacity = isDragging ? 0 : 1;
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleContextMenu = useCallback(
     (e) => {
       e.preventDefault();
       onContextMenu(e, index);
+      onSelect(index);
     },
-    [index, onContextMenu]
+    [index, onContextMenu, onSelect]
   );
+
+  const handleClick = () => {
+    onSelect(index);
+
+    if (typeof onSelect === 'function') {
+      onSelect(index);
+    }
+  };
 
   return (
     <div
       ref={(node) => (ref.current = node)}
-      style={{ opacity, cursor: 'grab' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
+      style={{
+        cursor: 'grab',
+        opacity: isDragging ? 0 : 1,
+        transition: 'background-color 0.3s ease',
+      }} 
       onContextMenu={handleContextMenu}
     >
       <div ref={(node) => drag(drop(node))} className={`playlist-item ${playlist.pinned ? 'pinned' : ''}`}>
@@ -109,20 +125,18 @@ const PlaylistItem = ({ playlist, index, movePlaylist, handleImageChange, delete
   );
 };
 
-const Playlist = () => {
+const Playlist = ({ onSelectPlaylist }) => {
   const [playlists, setPlaylists] = useState([]);
   const [newPlaylistName, setNewPlaylistName] = useState('');
   const [newPlaylistImage, setNewPlaylistImage] = useState('');
   const [contextMenuIndex, setContextMenuIndex] = useState(null);
-  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [selectedPlaylistIndex, setSelectedPlaylistIndex] = useState(null);
 
-  // Retrieve playlists from localStorage on component mount
   useEffect(() => {
     const storedPlaylists = JSON.parse(localStorage.getItem("playlists")) || [];
     setPlaylists(storedPlaylists);
   }, []);
 
-  // Save playlists to localStorage whenever playlists change
   useEffect(() => {
     localStorage.setItem("playlists", JSON.stringify(playlists));
   }, [playlists]);
@@ -137,7 +151,7 @@ const Playlist = () => {
       setNewPlaylistName('');
       setNewPlaylistImage('');
     }
-  };  
+  };
 
   const pinPlaylist = (index) => {
     const updatedPlaylists = [...playlists];
@@ -168,6 +182,16 @@ const Playlist = () => {
     setPlaylists(updatedPlaylists);
   };
 
+  const handleChangePlaylistName = () => {
+    const newName = prompt("Enter new playlist name:");
+    if (newName !== null) {
+      const updatedPlaylists = [...playlists];
+      updatedPlaylists[contextMenuIndex].name = newName;
+      setPlaylists(updatedPlaylists);
+    }
+    handleContextMenuClose();
+  };
+
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (file) {
@@ -182,24 +206,23 @@ const Playlist = () => {
   };
 
   const handleContextMenu = (e, index) => {
-    setContextMenuPosition({ x: e.clientX, y: e.clientY });
+    e.preventDefault();
     setContextMenuIndex(index);
-    document.addEventListener('click', handleContextMenuClose);
+
+    setTimeout(() => {
+      const contextMenu = document.getElementById('context-menu');
+      if (contextMenu) {
+        contextMenu.style.left = `${e.clientX}px`;
+        contextMenu.style.top = `${e.clientY}px`;
+
+        document.addEventListener('click', handleContextMenuClose);
+      }
+    }, 0);
   };
 
   const handleContextMenuClose = () => {
     setContextMenuIndex(null);
     document.removeEventListener('click', handleContextMenuClose);
-  };
-
-  const handleChangePlaylistName = () => {
-    const newName = prompt("Enter new playlist name:");
-    if (newName !== null) {
-      const updatedPlaylists = [...playlists];
-      updatedPlaylists[contextMenuIndex].name = newName;
-      setPlaylists(updatedPlaylists);
-    }
-    handleContextMenuClose();
   };
 
   return (
@@ -219,11 +242,13 @@ const Playlist = () => {
               pinPlaylist={pinPlaylist}
               unpinPlaylist={unpinPlaylist}
               onContextMenu={handleContextMenu}
+              onSelect={onSelectPlaylist}
+              selected={selectedPlaylistIndex === index}
             />
           ))}
         </div>
         {contextMenuIndex !== null && (
-          <div id="context-menu" className="context-menu" style={{ left: `${contextMenuPosition.x}px`, top: `${contextMenuPosition.y}px` }}>
+          <div id="context-menu" className="context-menu" style={{ left: '0', top: '0' }}>
             <div onClick={handleChangePlaylistName}>Change Playlist Name</div>
             <div>Add to queue</div>
           </div>

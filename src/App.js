@@ -11,7 +11,6 @@ export default function App() {
   return (
     <div>
       <Header />
-      <Playlist />
       <Content />
       <Footer />
     </div>

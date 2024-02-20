@@ -104,6 +104,10 @@ body {
         align-items: center;
         margin-bottom: 20px;
 }
+
+.playlist-item-selected {
+        background-color: white;
+}
       
 .playlist-item img {
         width: 100px;
@@ -175,7 +179,7 @@ body {
 
 .playlist-input {
         color: white;
-        border: 1px solid rgba(255, 255, 255, 0.492);
+        border: 1px solid #ffffff7d;
         border-radius: 5px;
         padding: 5px;
 }
@@ -218,6 +222,15 @@ body {
         left: 26%;
 }
 
+.CH--details {
+        display: flex;
+        position: absolute;
+        top: 27.5%;
+        left: 35%;
+        justify-content: space-between;
+        width: 9%;
+}
+
 .Bio--Track {
         margin-left: 100px;
 }
@@ -232,6 +245,9 @@ body {
 
 .Bio--Clock {
         margin-left: 250px;
+        margin-top: 10px;
+        width: 50px;
+        height: 40px;
 }
 /* - - - - - - - - - - -- - - - - - -- - - - - - - - - -- -  - - - - - */
 /* Footer // song controller */
