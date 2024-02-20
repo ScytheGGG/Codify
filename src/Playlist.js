@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useRef, useCallback, useEffect, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -62,8 +62,6 @@ const PlaylistItem = ({
     }),
   });
 
-  const [isHovered, setIsHovered] = useState(false);
-
   const handleContextMenu = useCallback(
     (e) => {
       e.preventDefault();
@@ -84,14 +82,12 @@ const PlaylistItem = ({
   return (
     <div
       ref={(node) => (ref.current = node)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
       style={{
         cursor: 'grab',
         opacity: isDragging ? 0 : 1,
         transition: 'background-color 0.3s ease',
-      }} 
+      }}
       onContextMenu={handleContextMenu}
     >
       <div ref={(node) => drag(drop(node))} className={`playlist-item ${playlist.pinned ? 'pinned' : ''}`}>
