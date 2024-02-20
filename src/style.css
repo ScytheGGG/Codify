@@ -32,9 +32,10 @@ body {
         border: 0;
         border-radius: 500px;
         /* */
-        color: #fff!important;
+        color: #fff;
         font-size: 15px;
         text-overflow: ellipsis;
+        text-align: center;
         height: 48px;
         /* */
         padding: 6px 100px;
@@ -179,6 +180,59 @@ body {
         padding: 5px;
 }
 
+/* - - - - - - - - - - -- - - - - - -- - - - - - - - - -- -  - - - - - */
+/* Content // Playlist stuff */
+.Content--container {
+        box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 15%; /* Adjust as needed */
+        left: 25%; /* Adjust as needed */
+        width: 75%;
+        height: 74.4%;
+        
+}
+
+.Content--header {
+        color: white;
+}
+
+.CH--title {
+        position: absolute;
+        font-size: 30px;
+        top: 20%;
+        left: 35%;
+}
+
+.CH--pic {
+        position: absolute;
+        top: 18%;
+        left: 26%;
+        width: 8%;
+}
+
+.CH--bio {
+        color: rgb(145, 145, 145);
+        display: flex;
+        position: absolute;
+        top: 35%;
+        left: 26%;
+}
+
+.Bio--Track {
+        margin-left: 100px;
+}
+
+.Bio--Album {
+        margin-left: 350px;
+}
+
+.Bio--Time {
+        margin-left: 350px;
+}
+
+.Bio--Clock {
+        margin-left: 250px;
+}
 /* - - - - - - - - - - -- - - - - - -- - - - - - - - - -- -  - - - - - */
 /* Footer // song controller */
 .Footer {
