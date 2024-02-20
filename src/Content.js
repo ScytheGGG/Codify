@@ -1,8 +1,8 @@
 import React from "react"
 
 // website elements
-import Playlist from "./Playlist"
-import PlaylistItem from "./Playlist"
+// import Playlist from "./Playlist"
+// import PlaylistItem from "./Playlist"
 
 export default function Content() {
         const Contentstyle = {
