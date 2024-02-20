@@ -14,7 +14,7 @@ export default function Content() {
                         <div className="Content--container"></div>
                         <div className="Content--header" style={Contentstyle}>
                                 <h3 className="CH--title">Playlist Name</h3>
-                                <img className="CH--pic" src="./images/No-Picture.png"></img>
+                                <img className="CH--pic" alt="playlist pic" src="./images/No-Picture.png"></img>
                                 <div className="CH--bio">
                                         <h3>#</h3>
                                         <h3 className="Bio--Track">Title</h3>
