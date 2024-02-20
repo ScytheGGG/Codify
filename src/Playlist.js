@@ -18,7 +18,6 @@ const PlaylistItem = ({
   unpinPlaylist,
   onContextMenu,
   onSelect,
-  selected,
 }) => {
   const ref = useRef(null);
 
@@ -130,7 +129,6 @@ const Playlist = ({ onSelectPlaylist }) => {
   const [newPlaylistName, setNewPlaylistName] = useState('');
   const [newPlaylistImage, setNewPlaylistImage] = useState('');
   const [contextMenuIndex, setContextMenuIndex] = useState(null);
-  const [selectedPlaylistIndex, setSelectedPlaylistIndex] = useState(null);
 
   useEffect(() => {
     const storedPlaylists = JSON.parse(localStorage.getItem("playlists")) || [];
@@ -243,7 +241,6 @@ const Playlist = ({ onSelectPlaylist }) => {
               unpinPlaylist={unpinPlaylist}
               onContextMenu={handleContextMenu}
               onSelect={onSelectPlaylist}
-              selected={selectedPlaylistIndex === index}
             />
           ))}
         </div>
