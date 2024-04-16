@@ -56,29 +56,27 @@ body {
 
 .sidebar {
         width: 450px;
-        margin-top: -700px;
+        margin-top: -715px;
         padding-top: 10px;
         padding-left: 30px;
         padding-right: 30px;
-        padding-bottom: 5px;
         color: white;
         position: relative;
-        border-top: 1px solid black;        
         border-right: 1px solid black;
 }
 
 .sidebar--box {
+        margin-top: 21px;
+        padding-top: 721px; /* Adjust this value to increase the length */
         width: 450px;
-        margin-top: 22px;
-        padding-top: 687.5px;
-        padding-bottom: 5px;
         color: white;
         box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.5); /* Add this line for the right shadow */
         position: relative;
+        border-top: 1px solid black;        
         border-right: 1px solid black;
         border-bottom: 1px solid black;
 }
-      
+       
 .add-playlist-button {
         position: absolute;
         top: 7px; /* Adjust as needed */
