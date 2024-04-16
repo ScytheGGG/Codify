@@ -56,18 +56,19 @@ body {
 
 .sidebar {
         width: 450px;
-        margin-top: -715px;
+        margin-top: -700px;
         padding-top: 10px;
         padding-left: 30px;
         padding-right: 30px;
         color: white;
         position: relative;
+        border-top: 1px solid black;        
         border-right: 1px solid black;
 }
 
 .sidebar--box {
         margin-top: 21px;
-        padding-top: 721px; /* Adjust this value to increase the length */
+        padding-top: 693px; /* Adjust this value to increase the length */
         width: 450px;
         color: white;
         box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.5); /* Add this line for the right shadow */
