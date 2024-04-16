@@ -7,10 +7,12 @@ export default function Header() {
 
         return (
                 <nav className="Navbar" style={headerStyle}>
-                        <img src="/images/Codify-No_Background.png" alt="Codify logo" style={{ width: '90px', height: 'auto' }}/>
-                        <h2 className="Navbar--home">Home</h2>
-                        <h2 className="Navbar--library">Releases</h2>
-                        <input className="Navbar--search" type="text" placeholder="What do you want to play?"></input>
+                        <div className="Navbar--left">
+                                <img src="/images/Codify-No_Background.png" alt="Codify logo" style={{ width: '90px', height: 'auto' }}/>
+                        </div>
+                        <div className="Navbar--center">
+                                <input className="Navbar--search" type="text" placeholder="What do you want to play?" />
+                        </div>
                 </nav>
         )
 }
